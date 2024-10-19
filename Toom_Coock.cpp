@@ -65,14 +65,24 @@ int toom_coock(int u, int v, int b, int r)
         // std::cout << u_x.value_at_point(i) * v_x.value_at_point(i) << std::endl;
     } 
     std::vector<long double> coef = newton_coefficients(w_at_point);
-
-    // long double y = 0;
-    // for(size_t i = 0; i < w_r.size(); ++i)
+    // for(size_t i = 0; i < coef.size(); ++i)
     // {
-    //     y += w_r[w_r.size() - 1 - i] * pow(b, i);
-    // }   
-    // return int(y);
-    return 0;
+    //     std::cout<<coef[i]<< std::endl;
+    // }
+
+    Polynom w_r;
+    for (size_t i = 0; i < coef.size(); ++i)
+    {
+        Polynom power_i = w_r.power_series(i);
+        w_r += Polynom({coef[i]}) * power_i;
+    }
+
+    long double y = 0;
+    for(size_t i = 0; i < w_r.size(); ++i)
+    {
+        y += w_r[w_r.size() - 1 - i] * pow(b, i);
+    }   
+    return int(y);
 }   
 
 int main()

@@ -7,7 +7,10 @@ int main()
     Polynom p_n = p_1.negative_polynom(p_1);
     std::vector<long double> x = p_1.get_poly();
     long double y = p_2.value_at_point(-2);
-    std::cout << y;
+    
+    Polynom power_poly = p_1.power_series(2);
+    power_poly.print();
+
     // p_1.print();
     // p_2.print();
     // Polynom p_sum = p_2 - p_1;

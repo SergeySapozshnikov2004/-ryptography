@@ -231,3 +231,18 @@ size_t Polynom::size()
 {
     return polynom.size();
 }
+
+Polynom Polynom::power_series(size_t num)
+{
+    if(num == 0)
+    {
+        return Polynom({1});
+    }
+    if(num == 1)
+    {
+        return Polynom({1,0});
+    }
+    Polynom poly_1 = Polynom({1, -1.0 * (num - 1)});
+    Polynom poly_2 = power_series(num - 1);
+    return poly_1 * poly_2;
+}

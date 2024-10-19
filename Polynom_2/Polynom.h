@@ -41,4 +41,6 @@ Polynom chebyshev(size_t num);
 
 size_t size();
 
+Polynom power_series(size_t num);                                                           
+
 };
