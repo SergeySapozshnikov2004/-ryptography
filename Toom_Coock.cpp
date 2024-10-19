@@ -2,6 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <vector>
 
 std::vector<long double> splitting_digits(int a, int b)
 {       
@@ -17,30 +18,39 @@ std::vector<long double> splitting_digits(int a, int b)
     return a_r;
 }
 
-std::vector<long double> difference_vector(std::vector<long double> input_vec)
+std::vector<long double> difference_vector(std::vector<long double> input_vec, size_t i_0)
 {
-    for(size_t i = 0; i < input_vec.size() - 1; ++i)
+    std::vector<long double> dif_vec;
+    for (size_t i = 0; i < input_vec.size() - 1; ++i)
     {
-        dif_vec.push_back(input_vec[i+1] - input_vec[i]);
-    }   
-}
+        dif_vec.push_back((input_vec[i+1] - input_vec[i]) / (i_0));
+        // std::cout << dif_vec[i] << std::endl;
+    }
+    return dif_vec;   
+}   
 
 std::vector<long double> newton_coefficients(std::vector<long double> w_at_point)
 {
     std::vector<long double> coef;
     std::vector<long double> dif_vec;
-    coef.push_back(w_at_point[0]);
-    for(size_t j = 0; j < w_at_point.size(); ++j)
+    dif_vec = w_at_point;
+    // coef.push_back(w_at_point[0]);
+    for (size_t i = 0; i < w_at_point.size(); ++i)
     {
-        if (w_at_point.size() != 1)
-        {
-            newton_coefficients(dif_vec);
-        }       
-        for(size_t i = 0; i < w_at_point.size() - 1; ++i)
-        {
-            dif_vec.push_back(w_at_point[i+1] - w_at_point[i]);
-        }
+        coef.push_back(dif_vec[0]);
+        // if(w_at_point.size() == 1)
+        // {
+        //     break;
+        // }
+        dif_vec = difference_vector(dif_vec, i + 1);
     }
+
+    // for (size_t i = 0; i < coef.size(); ++i)
+    // {
+    //     std::cout << coef[i] << std::endl;
+    // }
+    
+    return coef;
 }
 
 int toom_coock(int u, int v, int b, int r)
@@ -54,6 +64,7 @@ int toom_coock(int u, int v, int b, int r)
         w_at_point.push_back(u_x.value_at_point(i) * v_x.value_at_point(i));
         // std::cout << u_x.value_at_point(i) * v_x.value_at_point(i) << std::endl;
     } 
+    std::vector<long double> coef = newton_coefficients(w_at_point);
 
     // long double y = 0;
     // for(size_t i = 0; i < w_r.size(); ++i)
@@ -61,6 +72,7 @@ int toom_coock(int u, int v, int b, int r)
     //     y += w_r[w_r.size() - 1 - i] * pow(b, i);
     // }   
     // return int(y);
+    return 0;
 }   
 
 int main()
